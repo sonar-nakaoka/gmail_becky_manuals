@@ -1,20 +1,24 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib/core';
-import { CdkStack } from '../lib/cdk-stack';
+import { GmailBeckyManualsHostingStack } from '../lib/hosting-stack';
 
 const app = new cdk.App();
-new CdkStack(app, 'CdkStack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
 
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+const githubOwner = app.node.tryGetContext('githubOwner') as string | undefined;
+const githubRepoName = app.node.tryGetContext('githubRepoName') as string | undefined;
 
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
+if (!githubOwner || githubOwner.startsWith('PLACEHOLDER_')) {
+  throw new Error(
+    'cdk.json の context.githubOwner を実際の GitHub オーナー名に書き換えてください'
+  );
+}
+if (!githubRepoName || githubRepoName.startsWith('PLACEHOLDER_')) {
+  throw new Error(
+    'cdk.json の context.githubRepoName を実際のリポジトリ名に書き換えてください'
+  );
+}
 
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+new GmailBeckyManualsHostingStack(app, 'GmailBeckyManualsHostingStack', {
+  githubOwner,
+  githubRepoName,
 });

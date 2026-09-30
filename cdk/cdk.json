@@ -17,6 +17,8 @@
     ]
   },
   "context": {
+    "githubOwner": "PLACEHOLDER_OWNER",
+    "githubRepoName": "PLACEHOLDER_REPO",
     "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": true,
     "@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId": true,
     "@aws-cdk/aws-apigateway:disableCloudWatchRole": true,
